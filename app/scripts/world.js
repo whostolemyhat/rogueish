@@ -20,8 +20,32 @@ var World = (function() {
                 }
             },
             
-            update: function() {
-                // console.log('world update');
+            update: function(keydown) {
+                var newx = player.x;
+                var newy = player.y;
+
+                // world[player.x][player.y] = 0;
+
+                if(keydown.left) {
+                   newx--;
+                }
+                if(keydown.right) {
+                   newx++;
+                }
+                if(keydown.up) {
+                   newy--;
+                }
+                if(keydown.down) {
+                   newy++;
+                }
+
+                if(world[newx][newy] === 0) {
+                    world[player.x][player.y] = 0;
+                    player.x = newx;
+                    player.y = newy;
+                    world[player.x][player.y] = 9;
+                }
+                
             },
             draw: function(ctx, config) {
 

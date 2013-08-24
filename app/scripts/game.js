@@ -6,7 +6,7 @@ $(function() {
 
     var CANVAS_HEIGHT = Generator.worldHeight * tileHeight;
     var CANVAS_WIDTH = Generator.worldWidth * tileWidth;
-    var FPS = 60;
+    var FPS = 15;
     var canvasElement = $('<canvas width="' + CANVAS_WIDTH + '" height="' + CANVAS_HEIGHT + '"></canvas>');
     var canvas = canvasElement.get(0).getContext('2d');
     var world;

@@ -7,6 +7,9 @@ $(document).ready(function() {
     }
 
     $(document).bind("keydown", function(event) {
+      if(keyName(event) === 'up' || keyName(event) === 'down') {
+        event.preventDefault();
+      } 
       keydown[keyName(event)] = true;
     });
 
