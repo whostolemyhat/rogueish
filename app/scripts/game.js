@@ -48,6 +48,13 @@ $(function() {
             tileHeight: tileHeight,
             player: player.colour
         });
+
+        // Score
+        canvas.fillStyle = 'rgba(250, 250, 250, 0.9)';
+        canvas.font = "24px Helvetica";
+        canvas.textAlign = "left";
+        canvas.textBaseline = "top";
+        canvas.fillText("Treasure: " + player.score, 12, 12);
     }
 
     init();

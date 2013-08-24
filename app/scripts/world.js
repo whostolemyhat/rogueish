@@ -5,6 +5,10 @@ var World = (function() {
     function init() {
         // private vars
         var world = Generator.generateMap();
+        var playerTile = 9;
+        var emptyTile = 0;
+        var wallTile = 1;
+        var treasureTile = 2;
 
         return {
             // public methods/vars
@@ -12,8 +16,8 @@ var World = (function() {
             placePlayer: function() {
                 for(var y = 0; y < Generator.worldHeight; y++) {
                     for(var x = 0; x < Generator.worldWidth; x++) {
-                        if(world[x][y] === 0) {
-                            world[x][y] = 9;
+                        if(world[x][y] === emptyTile) {
+                            world[x][y] = playerTile;
                             return { x: x, y: y }
                         }
                     }
@@ -39,11 +43,19 @@ var World = (function() {
                    newy++;
                 }
 
-                if(world[newx][newy] === 0) {
-                    world[player.x][player.y] = 0;
+                if(world[newx][newy] === emptyTile) {
+                    world[player.x][player.y] = emptyTile;
                     player.x = newx;
                     player.y = newy;
-                    world[player.x][player.y] = 9;
+                    world[player.x][player.y] = playerTile;
+                } else if(world[newx][newy] == treasureTile) {
+                    player.score += 10;
+                    console.log(player.score);
+                    
+                    world[player.x][player.y] = emptyTile;
+                    player.x = newx;
+                    player.y = newy;
+                    world[player.x][player.y] = playerTile;
                 }
                 
             },
@@ -53,16 +65,16 @@ var World = (function() {
                     for(var y = 0; y < Generator.worldHeight; y++) {
 
                         switch(world[x][y]) {
-                            case 0: // floor
+                            case emptyTile: // floor
                                 ctx.fillStyle = config.floor;
                                 break;
-                            case 1: // walls
+                            case wallTile: // walls
                                 ctx.fillStyle = config.walls;
                                 break;
-                            case 2: //treasure
+                            case treasureTile: //treasure
                                 ctx.fillStyle = config.treasure;
                                 break;
-                            case 9: // player
+                            case playerTile: // player
                                 ctx.fillStyle = config.player;
                                 break;
                             default:

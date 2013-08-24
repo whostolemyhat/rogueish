@@ -1,7 +1,8 @@
 var player = {
     colour: 'red',
     x: '',
-    y: ''
+    y: '',
+    score: 0
     // x: 200,
     // y: 200,
     // width: 32,
