@@ -13,18 +13,23 @@ var player = {
 
     update: function(keydown) {
         if(keydown.left) {
-            // player.moveLeft();
-            player.x -= this.speed;
+            this.x -= this.speed;
         }
         if(keydown.right) {
-            player.x += this.speed;
+            this.x += this.speed;
         }
         if(keydown.up) {
-            player.y -= this.speed;
+            this.y -= this.speed;
         }
         if(keydown.down) {
-            player.y += this.speed;
+            this.y += this.speed;
         }
+        // this.checkBounds();
+    },
+
+    checkBounds: function(maxWidth, maxHeight) {
+        this.x = this.x.clamp(0, maxWidth - this.width);
+        this.y = this.y.clamp(0, maxHeight - this.width);
     }
 }
 
