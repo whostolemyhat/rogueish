@@ -1,8 +1,8 @@
 $(function() {
     'use strict';
 
-    var tileWidth = 16;
-    var tileHeight = 16;
+    var tileWidth = 12;
+    var tileHeight = 12;
 
     var CANVAS_HEIGHT = Generator.worldHeight * tileHeight;
     var CANVAS_WIDTH = Generator.worldWidth * tileWidth;
@@ -35,6 +35,7 @@ $(function() {
         // player.update(keydown);
         // player.checkBounds(CANVAS_WIDTH, CANVAS_HEIGHT);
         world.update(keydown);
+
     }
 
     function draw() {

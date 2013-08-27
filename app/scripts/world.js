@@ -9,6 +9,9 @@ var World = (function() {
         var emptyTile = 0;
         var wallTile = 1;
         var treasureTile = 2;
+        var bombTile = 3;
+        // !!! TODO: this should be pulled from game.js
+        var tileWidth = tileHeight = 12;
 
         return {
             // public methods/vars
@@ -28,19 +31,21 @@ var World = (function() {
                 var newx = player.x;
                 var newy = player.y;
 
-                // world[player.x][player.y] = 0;
-
                 if(keydown.left) {
+                    player.direction = 'left';
                    newx--;
                 }
                 if(keydown.right) {
-                   newx++;
+                    player.direction = 'right';
+                    newx++;
                 }
                 if(keydown.up) {
-                   newy--;
+                    player.direction = 'up';
+                    newy--;
                 }
                 if(keydown.down) {
-                   newy++;
+                    player.direction = 'down';
+                    newy++;
                 }
 
                 if(world[newx][newy] === emptyTile) {
@@ -50,12 +55,39 @@ var World = (function() {
                     world[player.x][player.y] = playerTile;
                 } else if(world[newx][newy] == treasureTile) {
                     player.score += 10;
-                    console.log(player.score);
-                    
+
                     world[player.x][player.y] = emptyTile;
                     player.x = newx;
                     player.y = newy;
                     world[player.x][player.y] = playerTile;
+                }
+
+                // player.attack
+                if(keydown.space) {
+                    // player.attack();
+                    // world[player.x][player.y] = bombTile;
+                    console.log(player.x, player.y);
+                    console.log(this.toPixelCoords({x: player.x, y: player.y } ));
+                    
+                    var pixelPos = this.toPixelCoords({ x: player.x, y: player.y });
+
+                    console.log(this.toTileCoords(pixelPos));
+
+                    switch(player.direction) {
+                        case 'up':
+                            world[player.x][player.y + 1] = bombTile;
+                            break;
+                        case 'down':
+                            world[player.x][player.y - 1] = bombTile;
+                            break;
+                        case 'left':
+                            world[player.x + 1][player.y] = bombTile;
+                            break;
+                        case 'right':
+                        default:
+                            world[player.x - 1][player.y] = bombTile;
+                            break;
+                    }
                 }
                 
             },
@@ -86,8 +118,28 @@ var World = (function() {
                         ctx.fillRect(x * config.tileWidth, y * config.tileHeight, config.tileWidth, config.tileHeight);
                     }
                 }
+            }, // draw
+
+            toTileCoords: function(position) {
+                var x = Math.floor(position.x / tileWidth);
+                // var y = ((CANVAS_HEIGHT * tileHeight) - position.y) / tileHeight;
+                var y = Math.floor(position.y / tileHeight);
+                return {
+                    x: x,
+                    y: y
+                };
+            },
+
+            toPixelCoords: function(position) {
+                var x = position.x * tileWidth;
+                var y = position.y * tileHeight;
+
+                return {
+                    x: x,
+                    y: y
+                };
             }
-        };
+        }; // end return
     };
 
     return {

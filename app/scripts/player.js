@@ -2,7 +2,9 @@ var player = {
     colour: 'red',
     x: '',
     y: '',
-    score: 0
+    score: 0,
+    direction: '',
+
     // x: 200,
     // y: 200,
     // width: 32,
@@ -28,6 +30,10 @@ var player = {
     //         this.y += this.speed;
     //     }
     // },
+
+    attack: function() {
+
+    }
 
     // checkBounds: function(maxWidth, maxHeight) {
     //     this.x = this.x.clamp(0, maxWidth - this.width);
