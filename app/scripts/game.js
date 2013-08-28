@@ -21,8 +21,8 @@ $(function() {
 
         world = World.getInstance();
         var tmp = world.placePlayer();
-        player.x = tmp.x;
-        player.y = tmp.y;
+        player.position.x = tmp.x;
+        player.position.y = tmp.y;
         
         setInterval(function() {
             update();
@@ -40,7 +40,7 @@ $(function() {
 
     function draw() {
         canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        // player.draw(canvas);
+
         world.draw(canvas, {
             floor: lightColour,
             walls: darkColour,
@@ -49,6 +49,7 @@ $(function() {
             tileHeight: tileHeight,
             player: player.colour
         });
+        player.draw(canvas);
 
         // Score
         canvas.fillStyle = 'rgba(250, 250, 250, 0.9)';

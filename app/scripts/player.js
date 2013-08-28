@@ -1,20 +1,22 @@
 var player = {
     colour: 'red',
-    x: '',
-    y: '',
+    position: {
+        x: 0,
+        y: 0
+    },
     score: 0,
     direction: '',
 
     // x: 200,
     // y: 200,
-    // width: 32,
-    // height: 32,
-    // speed: 10,
+    width: 12,
+    height: 12,
+    speed: 12,
 
-    // draw: function(canvas) {
-    //     canvas.fillStyle = this.colour;
-    //     canvas.fillRect(this.x, this.y, this.width, this.height);
-    // },
+    draw: function(canvas) {
+        canvas.fillStyle = this.colour;
+        canvas.fillRect(this.position.x, this.position.y, this.width, this.height);
+    },
 
     // update: function(keydown) {
     //     if(keydown.left) {
@@ -33,6 +35,15 @@ var player = {
 
     attack: function() {
 
+    },
+
+    updateScore: function(num) {
+        this.score += num;
+    },
+
+    move: function(x, y) {
+        this.position.x = x;
+        this.position.y = y;
     }
 
     // checkBounds: function(maxWidth, maxHeight) {

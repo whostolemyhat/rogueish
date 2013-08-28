@@ -1,9 +1,6 @@
-function Bomb() {
-    var colour = '#333';
-    var position = {
-        x: 0,
-        y: 0
-    };
+function Bomb(pos) {
+    this.colour = '#333';
+    this.position = pos;
 }
 
 Bomb.prototype.draw = function(canvas) {
