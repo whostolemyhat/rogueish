@@ -110,6 +110,14 @@ var World = (function() {
                     console.log(this.bombs);
                 }
                 
+                var time = new Date().getTime();
+                for(var i = 0; i < this.bombs.length; i++) {
+                    if((this.bombs[i].startTime + this.bombs[i].fuse) > time) {
+                        console.log('explode');
+                        this.bombs.splice(i, 1);
+                    }
+                }
+
             },
             draw: function(ctx, config) {
 
