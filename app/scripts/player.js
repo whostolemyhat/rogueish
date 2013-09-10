@@ -6,9 +6,6 @@ var player = {
     },
     score: 0,
     direction: '',
-
-    // x: 200,
-    // y: 200,
     width: 12,
     height: 12,
     speed: 12,

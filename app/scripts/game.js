@@ -49,7 +49,12 @@ $(function() {
             tileHeight: tileHeight,
             player: player.colour
         });
+        
+        for(var i = 0; i < world.bombs.length; i++) {
+            world.bombs[i].draw(canvas);
+        }
         player.draw(canvas);
+        
 
         // Score
         canvas.fillStyle = 'rgba(250, 250, 250, 0.9)';

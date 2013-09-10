@@ -38,22 +38,18 @@ var World = (function() {
 
                 if(keydown.left) {
                     player.direction = 'left';
-                    // newx--;
                     newx -= player.speed;
                 }
                 if(keydown.right) {
                     player.direction = 'right';
-                    // newx++;
                     newx += player.speed;
                 }
                 if(keydown.up) {
                     player.direction = 'up';
-                    // newy--;
                     newy -= player.speed;
                 }
                 if(keydown.down) {
                     player.direction = 'down';
-                    // newy++;
                     newy += player.speed;
                 }
 
@@ -79,32 +75,31 @@ var World = (function() {
                 if(keydown.space) {
                     // world[player.x][player.y] = bombTile;
 
-                    var bombPos = this.toTileCoords({ x: player.position.x, y: player.position.y });
+                    // var bombPos = this.toTileCoords({ x: player.position.x, y: player.position.y });
+                    var bombPos = { x: player.position.x, y: player.position.y };
 
                     switch(player.direction) {
                         case 'up':
-                            // this.bombs.push(new Bomb(this.toPixelCoords(player.x, player.y + 1)));
-                            bombPos.y += 1;
+                            bombPos.y += tileHeight;
                             this.bombs.push(new Bomb(bombPos));
-                            this.addTile(bombTile, bombPos);
-                            // world[player.x][player.y + 1] = bombTile;
+                            this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                         case 'down':
-                            bombPos.y -= 1;
+                            bombPos.y -= tileHeight;
                             this.bombs.push(new Bomb(bombPos));
-                            this.addTile(bombTile, bombPos);
+                            this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                         case 'left':
-                            bombPos.x += 1;
+                            bombPos.x += tileWidth;
                             this.bombs.push(new Bomb(bombPos));
-                            this.addTile(bombTile, bombPos);
+                            this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                         case 'right':
                         default:
-                            bombPos.x -= 1;
+                            bombPos.x -= tileWidth;
                             this.bombs.push(new Bomb(bombPos));
                             
-                            this.addTile(bombTile, bombPos);
+                            this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                     }
                     console.log(this.bombs);
@@ -112,9 +107,9 @@ var World = (function() {
                 
                 var time = new Date().getTime();
                 for(var i = 0; i < this.bombs.length; i++) {
-                    if((this.bombs[i].startTime + this.bombs[i].fuse) > time) {
-                        console.log('explode');
-                        this.bombs.splice(i, 1);
+                    if(time > (this.bombs[i].startTime + this.bombs[i].fuse)) {
+                        // this.bombs.splice(i, 1);
+                        this.bombs[i].explode();
                     }
                 }
 
@@ -134,14 +129,14 @@ var World = (function() {
                             case treasureTile: //treasure
                                 ctx.fillStyle = config.treasure;
                                 break;
-                            case playerTile: // player
-                                ctx.fillStyle = config.player;
-                                break;
-                            case bombTile:
-                                ctx.fillStyle = '#121212';
-                                break;
+                            // case playerTile: // player
+                                // ctx.fillStyle = config.player;
+                                // break;
+                            // case bombTile:
+                                // ctx.fillStyle = '#121212';
+                                // break;
                             default:
-                                ctx.fillStyle = '#000';
+                                ctx.fillStyle = emptyTile;
                                 break;
 
                         }
