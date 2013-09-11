@@ -41,7 +41,21 @@ var World = (function() {
                 }
                 this.bombs = newBombs;
 
-                // update tilemap
+                var time = new Date().getTime();
+                for(var i = 0; i < this.bombs.length; i++) {
+                    if(time > (this.bombs[i].startTime + this.bombs[i].fuse)) {
+                        this.bombs[i].explode();
+                        // update map
+                        var bombPos = this.toTileCoords(this.bombs[i].position);
+                        this.addTile(emptyTile, bombPos);
+                        // remove tiles around bomb
+                        for(var x = bombPos.x - 1; x < bombPos.x + 2; x++) {
+                            for(var y = bombPos.y - 1; y < bombPos.y + 2; y++) {
+                                this.addTile(emptyTile, { x: x, y: y });
+                            }
+                        }
+                    }
+                }
             },
             
             update: function(keydown) {
@@ -120,13 +134,7 @@ var World = (function() {
                     console.log(this.bombs);
                 }
                 
-                var time = new Date().getTime();
-                for(var i = 0; i < this.bombs.length; i++) {
-                    if(time > (this.bombs[i].startTime + this.bombs[i].fuse)) {
-                        // this.bombs.splice(i, 1);
-                        this.bombs[i].explode();
-                    }
-                }
+                
 
             },
             draw: function(ctx, config) {
