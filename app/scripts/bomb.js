@@ -5,6 +5,7 @@ function Bomb(pos) {
     this.height = 10;
     this.startTime = new Date().getTime();
     this.fuse = 3000;
+    this.active = true;
 }
 
 Bomb.prototype.draw = function(canvas) {
@@ -20,6 +21,8 @@ Bomb.prototype.update = function() {
 };
 
 Bomb.prototype.explode = function() {
-    // world.removeTile(this.position);
+    // var world = World.getInstance();
+    // // world.removeTile(this.position);
     // world.removeBomb(this.index);
+    this.active = false;
 }

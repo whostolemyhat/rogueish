@@ -32,7 +32,22 @@ var World = (function() {
                 }
             },
             
+            updateBombs: function() {
+                var newBombs = [];
+                for(var i = 0; i < this.bombs.length; i++) {
+                   if(this.bombs[i].active) {
+                        newBombs.push(this.bombs[i]);
+                   }
+                }
+                this.bombs = newBombs;
+
+                // update tilemap
+            },
+            
             update: function(keydown) {
+                
+                this.updateBombs();
+
                 var newx = player.position.x;
                 var newy = player.position.y;
 
