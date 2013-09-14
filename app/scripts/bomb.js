@@ -6,6 +6,7 @@ function Bomb(pos) {
     this.startTime = new Date().getTime();
     this.fuse = 3000;
     this.active = true;
+    this.damage = 1;
 }
 
 Bomb.prototype.draw = function(canvas) {

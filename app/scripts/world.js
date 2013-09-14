@@ -10,6 +10,7 @@ var World = (function() {
         var wallTile = 1;
         var treasureTile = 2;
         var bombTile = 3;
+        var enemyTile = 4;
         
         // !!! TODO: this should be pulled from game.js
         var tileWidth = tileHeight = 12;
@@ -18,20 +19,33 @@ var World = (function() {
 
         return {
             // public methods/vars
-
-            bombs: [],
+            playerTile: playerTile,
+            bombs: [], 
+            enemies: [],
 
             placePlayer: function() {
                 for(var y = 0; y < Generator.worldHeight; y++) {
                     for(var x = 0; x < Generator.worldWidth; x++) {
                         if(world[x][y] === emptyTile) {
-                            // world[x][y] = playerTile;
+                            world[x][y] = playerTile;
                             return this.toPixelCoords({ x: x, y: y });
                         }
                     }
                 }
             },
             
+            placeRandom: function() {
+                var ranX = Math.floor(Math.random() * Generator.worldWidth);
+                var ranY = Math.floor(Math.random() * Generator.worldHeight);
+
+                if(world[ranX][ranY] === emptyTile) {
+                    world[ranX][ranY] = enemyTile;
+                    return this.toPixelCoords({ x: ranX, y: ranY });
+                } else {
+                    return this.placeRandom();
+                }
+            },
+
             updateBombs: function() {
                 var newBombs = [];
                 for(var i = 0; i < this.bombs.length; i++) {
@@ -43,19 +57,33 @@ var World = (function() {
 
                 var time = new Date().getTime();
                 for(var i = 0; i < this.bombs.length; i++) {
-                    if(time > (this.bombs[i].startTime + this.bombs[i].fuse)) {
-                        this.bombs[i].explode();
-                        // update map
-                        var bombPos = this.toTileCoords(this.bombs[i].position);
-                        this.addTile(emptyTile, bombPos);
-                        // remove tiles around bomb
-                        for(var x = bombPos.x - 1; x < bombPos.x + 2; x++) {
-                            for(var y = bombPos.y - 1; y < bombPos.y + 2; y++) {
-                                this.addTile(emptyTile, { x: x, y: y });
-                            }
+                    if(this.bombs[i].active) {
+                        if(time > (this.bombs[i].startTime + this.bombs[i].fuse)) {
+                            this.bombs[i].explode();
+                            // update map
+                            var bombPos = this.toTileCoords(this.bombs[i].position);
+                            this.addTile(emptyTile, bombPos);
+                            // remove tiles around bomb
+                            for(var x = bombPos.x - 1; x < bombPos.x + 2; x++) {
+                                for(var y = bombPos.y - 1; y < bombPos.y + 2; y++) {
+                                    console.log(x, y, world[x][y]);
+                                    switch(world[x][y]) {
+                                        case enemyTile:
+                                            break;
+                                        case playerTile:
+                                            player.damage(this.bombs[i].damage);
+                                            break;
+                                        case wallTile:
+                                            this.addTile(emptyTile, { x: x, y: y });
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            } // end for x
                         }
                     }
-                }
+                } // end for bombs
             },
             
             update: function(keydown) {
@@ -80,6 +108,12 @@ var World = (function() {
                 if(keydown.down) {
                     player.direction = 'down';
                     newy += player.speed;
+                }
+
+                if(keydown.d) {
+                    // console.log(world);
+                    console.log(this.bombs);
+                    console.log(this.toTileCoords(player.position));
                 }
 
                 var tmp = this.toTileCoords({ x: newx, y: newy });

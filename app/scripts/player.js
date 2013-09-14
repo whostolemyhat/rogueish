@@ -9,6 +9,7 @@ var player = {
     width: 12,
     height: 12,
     speed: 12,
+    health: 3,
 
     draw: function(canvas) {
         canvas.fillStyle = this.colour;
@@ -41,6 +42,12 @@ var player = {
     move: function(x, y) {
         this.position.x = x;
         this.position.y = y;
+        var world = World.getInstance();
+        world.addTile(world.playerTile, world.toTileCoords(this.position));
+    },
+
+    damage: function(damage) {
+        this.health -= damage;
     }
 
     // checkBounds: function(maxWidth, maxHeight) {

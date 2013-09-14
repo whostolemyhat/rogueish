@@ -23,6 +23,7 @@ $(function() {
         var tmp = world.placePlayer();
         player.position.x = tmp.x;
         player.position.y = tmp.y;
+        world.enemies.push(new Enemy(), new Enemy(), new Enemy());
         
         setInterval(function() {
             update();
@@ -32,10 +33,7 @@ $(function() {
 
     
     function update() {
-        // player.update(keydown);
-        // player.checkBounds(CANVAS_WIDTH, CANVAS_HEIGHT);
         world.update(keydown);
-
     }
 
     function draw() {
@@ -53,6 +51,9 @@ $(function() {
         for(var i = 0; i < world.bombs.length; i++) {
             world.bombs[i].draw(canvas);
         }
+        for(var i = 0; i < world.enemies.length; i++) {
+            world.enemies[i].draw(canvas);
+        }
         player.draw(canvas);
         
 
@@ -61,7 +62,9 @@ $(function() {
         canvas.font = "24px Helvetica";
         canvas.textAlign = "left";
         canvas.textBaseline = "top";
+        // text, x, y
         canvas.fillText("Treasure: " + player.score, 12, 12);
+        canvas.fillText("Heath: " + player.health, 12, 36);
     }
 
     init();
