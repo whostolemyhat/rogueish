@@ -102,30 +102,27 @@ var World = (function() {
 
                 // player.attack
                 if(keydown.space) {
-                    // world[player.x][player.y] = bombTile;
-
-                    // var bombPos = this.toTileCoords({ x: player.position.x, y: player.position.y });
                     var bombPos = { x: player.position.x, y: player.position.y };
 
                     switch(player.direction) {
                         case 'up':
-                            bombPos.y += tileHeight;
-                            this.bombs.push(new Bomb(bombPos));
-                            this.addTile(bombTile, this.toTileCoords(bombPos));
-                            break;
-                        case 'down':
                             bombPos.y -= tileHeight;
                             this.bombs.push(new Bomb(bombPos));
                             this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
+                        case 'down':
+                            bombPos.y += tileHeight;
+                            this.bombs.push(new Bomb(bombPos));
+                            this.addTile(bombTile, this.toTileCoords(bombPos));
+                            break;
                         case 'left':
-                            bombPos.x += tileWidth;
+                            bombPos.x -= tileWidth;
                             this.bombs.push(new Bomb(bombPos));
                             this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                         case 'right':
                         default:
-                            bombPos.x -= tileWidth;
+                            bombPos.x += tileWidth;
                             this.bombs.push(new Bomb(bombPos));
                             
                             this.addTile(bombTile, this.toTileCoords(bombPos));
@@ -152,12 +149,6 @@ var World = (function() {
                             case treasureTile: //treasure
                                 ctx.fillStyle = config.treasure;
                                 break;
-                            // case playerTile: // player
-                                // ctx.fillStyle = config.player;
-                                // break;
-                            // case bombTile:
-                                // ctx.fillStyle = '#121212';
-                                // break;
                             default:
                                 ctx.fillStyle = emptyTile;
                                 break;
@@ -171,7 +162,6 @@ var World = (function() {
 
             toTileCoords: function(position) {
                 var x = Math.floor(position.x / tileWidth);
-                // var y = ((CANVAS_HEIGHT * tileHeight) - position.y) / tileHeight;
                 var y = Math.floor(position.y / tileHeight);
                 return {
                     x: x,
