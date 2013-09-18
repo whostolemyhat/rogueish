@@ -1,4 +1,4 @@
-function Enemy() {
+function Enemy(id) {
     this.colour = 'green';
     this.position = World.getInstance().placeRandom();
     this.width = 12;
@@ -6,6 +6,8 @@ function Enemy() {
     this.speed = 10;
     this.health = 1;
     this.active = true;
+    this.id = id;
+    console.log(this.id);
 }
 
 Enemy.prototype.draw = function(canvas) {

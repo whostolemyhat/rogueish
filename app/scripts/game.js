@@ -23,7 +23,11 @@ $(function() {
         var tmp = world.placePlayer();
         player.position.x = tmp.x;
         player.position.y = tmp.y;
-        world.enemies.push(new Enemy(), new Enemy(), new Enemy());
+        // world.enemies.push(new Enemy(1), new Enemy(2), new Enemy(3));
+        world.addEntity(new Enemy(1));
+        world.addEntity(new Enemy(2));
+        world.addEntity(new Enemy(3));
+        console.log(world.entities);
         
         setInterval(function() {
             update();
@@ -51,9 +55,12 @@ $(function() {
         for(var i = 0; i < world.bombs.length; i++) {
             world.bombs[i].draw(canvas);
         }
-        for(var i = 0; i < world.enemies.length; i++) {
-            world.enemies[i].draw(canvas);
-        }
+        // for(var i = 0; i < world.enemies.length; i++) {
+        //     world.enemies[i].draw(canvas);
+        // }
+        world.forEachEntity(function(entity) {
+            entity.draw(canvas);
+        })
         player.draw(canvas);
         
 

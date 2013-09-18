@@ -21,7 +21,19 @@ var World = (function() {
             // public methods/vars
             playerTile: playerTile,
             bombs: [], 
-            enemies: [],
+            entities: {},
+
+            forEachEntity: function(callback) {
+                _.each(this.entities, function(entity) {
+                    callback(entity);
+                });
+            },
+
+            addEntity: function(entity) {
+                if(this.entities[entity.id] === undefined) {
+                    this.entities[entity.id] = entity;
+                }
+            },
 
             placePlayer: function() {
                 for(var y = 0; y < Generator.worldHeight; y++) {
