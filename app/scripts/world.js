@@ -20,6 +20,7 @@ var World = (function() {
         return {
             // public methods/vars
             playerTile: playerTile,
+            emptyTile: emptyTile,
             bombs: [], 
             entities: {},
 
@@ -32,6 +33,12 @@ var World = (function() {
             addEntity: function(entity) {
                 if(this.entities[entity.id] === undefined) {
                     this.entities[entity.id] = entity;
+                }
+            },
+
+            removeEntity: function(id) {
+                if(this.entities[entity.id]) {
+                    delete this.entities[entity.id];
                 }
             },
 
@@ -78,9 +85,9 @@ var World = (function() {
                             // remove tiles around bomb
                             for(var x = bombPos.x - 1; x < bombPos.x + 2; x++) {
                                 for(var y = bombPos.y - 1; y < bombPos.y + 2; y++) {
-                                    console.log(x, y, world[x][y]);
                                     switch(world[x][y]) {
                                         case enemyTile:
+                                            
                                             break;
                                         case playerTile:
                                             player.damage(this.bombs[i].damage);

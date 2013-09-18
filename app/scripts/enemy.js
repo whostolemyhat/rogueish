@@ -5,9 +5,7 @@ function Enemy(id) {
     this.height = 12;
     this.speed = 10;
     this.health = 1;
-    this.active = true;
     this.id = id;
-    console.log(this.id);
 }
 
 Enemy.prototype.draw = function(canvas) {
@@ -20,6 +18,7 @@ Enemy.prototype.update = function() {
 };
 
 Enemy.prototype.damage = function(damage) {
+    console.log('taking damage ' + this.id);
     this.health -= damage;
     if(this.health <= 0) {
         this.die();
@@ -27,7 +26,8 @@ Enemy.prototype.damage = function(damage) {
 }
 
 Enemy.prototype.die = function() {
-    this.active = false;
-    // World.getInstance.player
     // notify game that enemy died
+    var world = World.getInstance();
+    world.removeEntity(this.id);
+    world.addTile(world.emptyTile, world.toTileCoords(this.position));
 }

@@ -40,9 +40,10 @@ var player = {
     },
 
     move: function(x, y) {
+        var world = World.getInstance();
+        world.addTile(world.emptyTile, world.toTileCoords(this.position));
         this.position.x = x;
         this.position.y = y;
-        var world = World.getInstance();
         world.addTile(world.playerTile, world.toTileCoords(this.position));
     },
 
