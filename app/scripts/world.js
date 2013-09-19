@@ -11,6 +11,7 @@ var World = (function() {
         var treasureTile = 2;
         var bombTile = 3;
         var enemyTile = 4;
+        var bombId = 0;
         
         // !!! TODO: this should be pulled from game.js
         var tileWidth = tileHeight = 12;
@@ -21,7 +22,7 @@ var World = (function() {
             // public methods/vars
             playerTile: playerTile,
             emptyTile: emptyTile,
-            bombs: [], 
+            bombs: {}, 
             entities: {},
 
             forEachEntity: function(callback) {
@@ -37,8 +38,8 @@ var World = (function() {
             },
 
             removeEntity: function(id) {
-                if(this.entities[entity.id]) {
-                    delete this.entities[entity.id];
+                if(this.entities[id]) {
+                    delete this.entities[id];
                 }
             },
 
@@ -66,6 +67,8 @@ var World = (function() {
             },
 
             updateBombs: function() {
+                var self = this;
+
                 var newBombs = [];
                 for(var i = 0; i < this.bombs.length; i++) {
                    if(this.bombs[i].active) {
@@ -82,15 +85,25 @@ var World = (function() {
                             // update map
                             var bombPos = this.toTileCoords(this.bombs[i].position);
                             this.addTile(emptyTile, bombPos);
+                            // take damage once per bomb
+                            var playerDamaged = false;
                             // remove tiles around bomb
                             for(var x = bombPos.x - 1; x < bombPos.x + 2; x++) {
                                 for(var y = bombPos.y - 1; y < bombPos.y + 2; y++) {
                                     switch(world[x][y]) {
                                         case enemyTile:
-                                            
+                                            this.forEachEntity(function(entity) {
+                                                var enemyPos = self.toTileCoords(entity.position);
+                                                if(enemyPos.x === x && enemyPos.y === y) {
+                                                    entity.damage(self.bombs[i].damage);
+                                                }
+                                            });
                                             break;
                                         case playerTile:
-                                            player.damage(this.bombs[i].damage);
+                                            if(!playerDamaged) {
+                                                player.damage(this.bombs[i].damage);
+                                                playerDamaged = true;
+                                            }
                                             break;
                                         case wallTile:
                                             this.addTile(emptyTile, { x: x, y: y });
@@ -160,27 +173,28 @@ var World = (function() {
                     switch(player.direction) {
                         case 'up':
                             bombPos.y -= tileHeight;
-                            this.bombs.push(new Bomb(bombPos));
+                            this.bombs.push(new Bomb(bombPos, this.bombId));
                             this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                         case 'down':
                             bombPos.y += tileHeight;
-                            this.bombs.push(new Bomb(bombPos));
+                            this.bombs.push(new Bomb(bombPos, this.bombId));
                             this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                         case 'left':
                             bombPos.x -= tileWidth;
                             this.bombs.push(new Bomb(bombPos));
-                            this.addTile(bombTile, this.toTileCoords(bombPos));
+                            this.addTile(bombTile, this.toTileCoords(bombPos, this.bombId));
                             break;
                         case 'right':
                         default:
                             bombPos.x += tileWidth;
-                            this.bombs.push(new Bomb(bombPos));
+                            this.bombs.push(new Bomb(bombPos, this.bombId));
                             
                             this.addTile(bombTile, this.toTileCoords(bombPos));
                             break;
                     }
+                    this.bombId++;
                     console.log(this.bombs);
                 }
                 

@@ -1,4 +1,4 @@
-function Bomb(pos) {
+function Bomb(pos, id) {
     this.colour = '#333';
     this.position = pos;
     this.width = 12;
@@ -7,6 +7,7 @@ function Bomb(pos) {
     this.fuse = 3000;
     this.active = true;
     this.damage = 1;
+    this.id = id;
 }
 
 Bomb.prototype.draw = function(canvas) {
