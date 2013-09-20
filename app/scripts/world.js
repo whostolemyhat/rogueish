@@ -22,7 +22,8 @@ var World = (function() {
             // public methods/vars
             playerTile: playerTile,
             emptyTile: emptyTile,
-            bombs: {}, 
+            bombTile: bombTile,
+            bombs: [], 
             entities: {},
 
             forEachEntity: function(callback) {
@@ -119,6 +120,7 @@ var World = (function() {
             },
             
             update: function(keydown) {
+                var self = this;
                 
                 this.updateBombs();
 
@@ -166,39 +168,7 @@ var World = (function() {
                 }
 
 
-                // player.attack
-                if(keydown.space) {
-                    var bombPos = { x: player.position.x, y: player.position.y };
 
-                    switch(player.direction) {
-                        case 'up':
-                            bombPos.y -= tileHeight;
-                            this.bombs.push(new Bomb(bombPos, this.bombId));
-                            this.addTile(bombTile, this.toTileCoords(bombPos));
-                            break;
-                        case 'down':
-                            bombPos.y += tileHeight;
-                            this.bombs.push(new Bomb(bombPos, this.bombId));
-                            this.addTile(bombTile, this.toTileCoords(bombPos));
-                            break;
-                        case 'left':
-                            bombPos.x -= tileWidth;
-                            this.bombs.push(new Bomb(bombPos));
-                            this.addTile(bombTile, this.toTileCoords(bombPos, this.bombId));
-                            break;
-                        case 'right':
-                        default:
-                            bombPos.x += tileWidth;
-                            this.bombs.push(new Bomb(bombPos, this.bombId));
-                            
-                            this.addTile(bombTile, this.toTileCoords(bombPos));
-                            break;
-                    }
-                    this.bombId++;
-                    console.log(this.bombs);
-                }
-                
-                
 
             },
             draw: function(ctx, config) {

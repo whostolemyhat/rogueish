@@ -40,6 +40,44 @@ $(function() {
         world.update(keydown);
     }
 
+    // player.attack
+    $(document).keyup(function(event) {
+        var world = World.getInstance();
+        // 32 = space
+        if(event.keyCode === 32) {
+            var bombPos = { x: player.position.x, y: player.position.y };
+
+            switch(player.direction) {
+                case 'up':
+                    bombPos.y -= tileHeight;
+                    world.bombs.push(new Bomb(bombPos, world.bombId));
+                    world.addTile(world.bombTile, world.toTileCoords(bombPos));
+                    break;
+                case 'down':
+                    bombPos.y += tileHeight;
+                    world.bombs.push(new Bomb(bombPos, world.bombId));
+                    world.addTile(world.bombTile, world.toTileCoords(bombPos));
+                    break;
+                case 'left':
+                    bombPos.x -= tileWidth;
+                    world.bombs.push(new Bomb(bombPos));
+                    world.addTile(world.bombTile, world.toTileCoords(bombPos, world.bombId));
+                    break;
+                case 'right':
+                default:
+                    bombPos.x += tileWidth;
+                    world.bombs.push(new Bomb(bombPos, world.bombId));
+                    
+                    world.addTile(world.bombTile, world.toTileCoords(bombPos));
+                    break;
+            }
+            world.bombId++;
+            console.log(world.bombs);
+            return false;
+        }
+        return false;
+    });
+
     function draw() {
         canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -71,7 +109,7 @@ $(function() {
         canvas.textBaseline = "top";
         // text, x, y
         canvas.fillText("Treasure: " + player.score, 12, 12);
-        canvas.fillText("Heath: " + player.health, 12, 36);
+        canvas.fillText("Health: " + player.health, 12, 36);
     }
 
     init();
