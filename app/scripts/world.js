@@ -167,7 +167,10 @@ var World = (function() {
                     player.move(newx, newy);
                 }
 
-
+                if(world[tmp.x][tmp.y] === enemyTile) {
+                    // TODO: magic number!
+                    player.damage(1);
+                }
 
 
             },
