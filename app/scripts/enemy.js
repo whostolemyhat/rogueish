@@ -6,6 +6,7 @@ function Enemy(id) {
     this.speed = 10;
     this.health = 1;
     this.id = id;
+    this.direction = "left";
 }
 
 Enemy.prototype.draw = function(canvas) {
