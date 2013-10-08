@@ -3,7 +3,7 @@ function Enemy(id) {
     this.position = World.getInstance().placeRandom();
     this.width = 12;
     this.height = 12;
-    this.speed = 10;
+    this.speed = 12; // simplify movement for now
     this.health = 1;
     this.id = id;
     this.direction = "left";
@@ -15,7 +15,22 @@ Enemy.prototype.draw = function(canvas) {
 };
 
 Enemy.prototype.update = function() {
-    // body...
+    // make action in queue
+};
+
+Enemy.prototype.patrol = function(dest) {
+    // pick random tile
+    
+    // get path from Astar
+    // move self.speed to next tile in path list
+    var world = World.getInstance();
+    world.addTile(world.emptyTile, world.toTileCoords(this.position));
+    this.position.x = this.position.x += this.speed;
+    // this.position.y = y;
+    world.addTile(world.enemyTile, world.toTileCoords(this.position));
+    // am i on the next tile?
+    // move to next tile in path list
+    // pause
 };
 
 Enemy.prototype.damage = function(damage) {

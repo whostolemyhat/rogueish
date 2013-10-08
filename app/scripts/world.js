@@ -157,7 +157,16 @@ var World = (function() {
                 if(keydown.d) {
                     // console.log(world);
                     console.log(this.bombs);
+                    console.log(this.entities);
                     console.log(this.toTileCoords(player.position));
+                }
+
+                if(keydown.e) {
+                    this.forEachEntity(function(entity) {
+                        var dest = World.getInstance().toTileCoords(entity.position);
+                        dest.x += 1;
+                        entity.patrol(dest);
+                    });
                 }
 
                 var tmp = this.toTileCoords({ x: newx, y: newy });
