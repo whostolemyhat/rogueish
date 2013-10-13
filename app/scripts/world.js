@@ -35,6 +35,7 @@ var World = (function() {
             tileHeight: tileHeight,
             tileWidth: tileWidth,
             spritesheet: spritesheet,
+            world: world,
 
             forEachEntity: function(callback) {
                 _.each(this.entities, function(entity) {

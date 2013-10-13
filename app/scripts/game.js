@@ -23,11 +23,13 @@ $(function() {
         var tmp = world.placePlayer();
         player.position.x = tmp.x;
         player.position.y = tmp.y;
-        // world.enemies.push(new Enemy(1), new Enemy(2), new Enemy(3));
+
         world.addEntity(new Enemy(1));
         world.addEntity(new Enemy(2));
         world.addEntity(new Enemy(3));
         console.log(world.entities);
+
+        console.log(findPath(world.world, [2,4], [10, 10]));
         
         setInterval(function() {
             update();
