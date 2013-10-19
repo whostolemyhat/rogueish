@@ -20,10 +20,13 @@ Enemy.prototype.update = function() {
 
 Enemy.prototype.patrol = function(dest) {
     // pick random tile
-    
-    // get path from Astar
-    // move self.speed to next tile in path list
     var world = World.getInstance();
+    var dest = world.placeRandom();
+    console.log(world.toTileCoords(this.position), world.toTileCoords(dest));
+    // get path from Astar
+    var path = findPath(world.world, world.toTileCoords(this.position), world.toTileCoords(dest));
+    console.log(path);
+    // move self.speed to next tile in path list
     world.addTile(world.emptyTile, world.toTileCoords(this.position));
     this.position.x = this.position.x += this.speed;
     // this.position.y = y;
